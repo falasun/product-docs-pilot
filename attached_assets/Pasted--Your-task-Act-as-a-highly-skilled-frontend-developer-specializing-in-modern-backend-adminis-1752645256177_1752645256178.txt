@@ -1,0 +1,84 @@
+
+# Your task:
+	
+Act as a highly skilled frontend developer specializing in modern backend administration panel user interfaces. Your task is to generate the complete HTML, CSS (embedded in `<style>` tags), and minimal JavaScript (embedded in `<script>` tags) for a web page based on the following detailed {text-based UI diagram}, **implemented using Ant Design components/framework**. The sole purpose of this code is to serve as a visual prototype, focusing on layout and styling, NOT on full functionality or backend integration.
+
+	
+# {text-based UI diagram}:
+	
+	```plaintext
+	+====================================================================+
+	| 新建预算科目                                                        |
+	| [返回列表]                                                    [×]关闭 |
+	+--------------------------------------------------------------------+
+	| * 科目编码: _______________ [?]                                   |
+	|   (提示：唯一标识符，格式：ANIM-类型-代码，示例：ANIM-MOUSE-C57)      |
+	+--------------------------------------------------------------------+
+	| * 科目名称: ______________________________________________________ |
+	|   (用户友好名称，示例：C57BL/6J小鼠采购费)                           |
+	+--------------------------------------------------------------------+
+	|   上级科目: [▽ 无]                                                 |
+	|   (支持多级结构，选"无"则为一级科目)                                 |
+	+--------------------------------------------------------------------+
+	|   科目描述:                                                        |
+	|   [多行文本输入区________________________________________________] |
+	|   [____________________________________________________________] |
+	|   (详细说明费用范围和核算规则，示例：含运输及初期检疫费)                |
+	+--------------------------------------------------------------------+
+	| * 默认计费单位: [▽ 选择] 选项：只/小时/人天/克/次                     |
+	+--------------------------------------------------------------------+
+	|   默认单价/费率: ¥ ________                                       |
+	|   (数值型，保留2位小数；若需复杂计费请留空并配置"资源单价表")            |
+	+--------------------------------------------------------------------+
+	|   计费公式: [_________] [?]                                       |
+	|   (可选，示例：数量*单价；可点击[选择公式模板])                       |
+	+--------------------------------------------------------------------+
+	|   适用项目类型: [☐ In-vivo] [☐ In-vitro] [☐ 药物发现] [...]        |
+	|   (多选，关联AAALAC实验分类)                                        |
+	+--------------------------------------------------------------------+
+	|   状态: [●] 启用   [○] 停用                                       |
+	|   (停用科目将无法在新建预算中选择)                                   |
+	+--------------------------------------------------------------------+
+	| 审计追踪:                                                          |
+	|   创建人：自动显示当前用户      创建时间：自动生成                     |
+	|   修改人：--                修改时间：--                          |
+	+--------------------------------------------------------------------+
+	| [ 取消 ]                                      [ 保存并新增 ]         |
+	|                                                     [ 提交审批 ]    |
+	+====================================================================+
+
+# Specific Requirements for Code Generation:
+
+1. Output Format: Provide a single, complete HTML5 file. All CSS must be within <style> tags in the <head>, and JavaScript must be within <script> tags just before the </body> closing tag. You should link to the Ant Design CSS (e.g., https://cdnjs.cloudflare.com/ajax/libs/antd/4.x.x/antd.min.css) in the <head> to ensure Ant Design styling.
+
+2. Visual Style: Generate code for a mainstream, clean, and modern backend administration interface using Ant Design's default styling and layout conventions.
+
+3. UI Elements Implementation: Prioritize using HTML structures that would typically be rendered by Ant Design components.
+
+	- Page Structure: The overall page content should be contained within a central, styled div representing the main form area. Use Ant Design Form and Form.Item components for structuring the form fields.
+	- Header: Implement the title "新建预算科目" and the "返回列表", "× 关闭" buttons in a clear header section, resembling Ant Design's layout.
+	- Form Fields:
+		- _______________: Implement as Ant Design Input component.
+		- [多行文本输入区...]: Implement as Ant Design Input.TextArea component.
+		- [▽ 选择]: Implement as Ant Design Select component with example Option tags.
+		- [●] 启用 / [○] 停用: Implement as Ant Design Radio.Group with Radio components.
+		- [☐] In-vivo / ...: Implement as Ant Design Checkbox.Group with Checkbox components.
+		- [?]: Implement as an Ant Design Tooltip component wrapping a small help icon (e.g., <QuestionCircleOutlined /> or similar placeholder if icon library not included).
+		- ¥ ________: Implement as Ant Design InputNumber component, potentially with an addonBefore for '¥'.
+		- Required fields (marked with *): Visually highlight the asterisk (e.g., using a <span> with color: red;) next to the label, or rely on Ant Design Form.Item's required property.
+	- Hints/Descriptions: Text in parentheses (...) should be rendered as smaller, lighter-colored text (e.g., using a div or p with font-size: 0.8em; color: #999;) below its corresponding form item.
+	- Section Separators: Implement ---------------------------------------------------------------------- as a subtle visual horizontal rule (e.g., a div with border-bottom).
+	- Read-only "审计追踪" Section: Style this section to clearly appear as non-editable informational text (e.g., a div with background-color: #f5f5f5; color: #666; padding: 15px; border-radius: 4px;).
+
+4. Layout: Strictly adhere to the single-column form layout as depicted in the diagram, with logical grouping of related fields. Use Ant Design's Form and Form.Item components to structure the layout of fields and their labels.
+
+5. Buttons:
+	- Implement [返回列表], [×]关闭, [取消], [保存并新增], [提交审批] as Ant Design Button components.
+	- Style buttons consistently: type="primary" for 提交审批, type="default" for 保存并新增, type="link" or type="text" for 取消, 返回列表, 关闭.
+
+6. Minimal JavaScript: Include only the absolute minimum JavaScript necessary for basic UI interactivity to demonstrate the prototype's layout (e.g., a simple click handler for the 关闭 button to potentially log to console or simulate closing). DO NOT implement form submission logic, complex validation beyond basic HTML5 required attribute, or any backend integration. The JavaScript should be simple and directly related to the UI diagram's interactive elements.
+
+7. Prototype Focus: The generated code should clearly serve as a front-end prototype for visual and layout purposes. Avoid any server-side logic, API calls, or advanced frontend frameworks unless specifically requested and simplified for prototyping.
+
+
+Generate the full HTML, CSS, and JavaScript code adhering to all the above requirements.
