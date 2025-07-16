@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新建预算科目</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.16/antd.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .form-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #262626;
+            margin: 0;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .form-content {
+            padding: 24px;
+        }
+        
+        .form-section {
+            margin-bottom: 16px;
+        }
+        
+        .section-separator {
+            border-bottom: 1px solid #f0f0f0;
+            margin: 24px 0;
+        }
+        
+        .hint-text {
+            font-size: 12px;
+            color: #8c8c8c;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+        
+        .audit-section {
+            background-color: #fafafa;
+            padding: 16px;
+            border-radius: 4px;
+            border: 1px solid #f0f0f0;
+            margin: 24px 0;
+        }
+        
+        .audit-title {
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #262626;
+        }
+        
+        .audit-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            color: #595959;
+            font-size: 14px;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .action-left {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-right {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .required-mark {
+            color: #ff4d4f;
+            margin-right: 4px;
+        }
+        
+        .ant-form-item-label > label::before {
+            content: none !important;
+        }
+        
+        .ant-form-item-required::before {
+            content: '*';
+            color: #ff4d4f;
+            margin-right: 4px;
+        }
+        
+        .help-icon {
+            color: #8c8c8c;
+            margin-left: 4px;
+            cursor: help;
+        }
+        
+        .project-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1 class="form-title">新建预算科目</h1>
+            <div class="header-actions">
+                <button type="button" class="ant-btn ant-btn-link" onclick="goBack()">返回列表</button>
+                <button type="button" class="ant-btn ant-btn-text" onclick="closeForm()">× 关闭</button>
+            </div>
+        </div>
+        
+        <div class="form-content">
+            <form class="ant-form ant-form-vertical">
+                <!-- 科目编码 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label class="ant-form-item-required">科目编码</label>
+                        <span class="help-icon" title="唯一标识符，格式：ANIM-类型-代码">?</span>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <input type="text" class="ant-input" placeholder="请输入科目编码" required>
+                        <div class="hint-text">提示：唯一标识符，格式：ANIM-类型-代码，示例：ANIM-MOUSE-C57</div>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
+                <!-- 科目名称 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label class="ant-form-item-required">科目名称</label>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <input type="text" class="ant-input" placeholder="请输入科目名称" required>
+                        <div class="hint-text">用户友好名称，示例：C57BL/6J小鼠采购费</div>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
+                <!-- 上级科目 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label>上级科目</label>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <select class="ant-select ant-select-selector" style="width: 100%;">
+                            <option value="">无</option>
+                            <option value="parent1">实验动物费用</option>
+                            <option value="parent2">试剂耗材费用</option>
+                            <option value="parent3">设备使用费用</option>
+                        </select>
+                        <div class="hint-text">支持多级结构，选"无"则为一级科目</div>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
+                <!-- 科目描述 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label>科目描述</label>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <textarea class="ant-input" rows="4" placeholder="请输入科目描述"></textarea>
+                        <div class="hint-text">详细说明费用范围和核算规则，示例：含运输及初期检疫费</div>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
+                <!-- 默认计费单位 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label class="ant-form-item-required">默认计费单位</label>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <select class="ant-select ant-select-selector" style="width: 100%;" required>
+                            <option value="">请选择</option>
+                            <option value="只">只</option>
+                            <option value="小时">小时</option>
+                            <option value="人天">人天</option>
+                            <option value="克">克</option>
+                            <option value="次">次</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
+                <!-- 默认单价/费率 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label>默认单价/费率</label>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <div class="ant-input-number-group-wrapper">
+                            <div class="ant-input-number-wrapper ant-input-number-group">
+                                <div class="ant-input-number-group-addon">¥</div>
+                                <input type="number" class="ant-input-number-input" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="hint-text">数值型，保留2位小数；若需复杂计费请留空并配置"资源单价表"</div>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
+                <!-- 计费公式 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label>计费公式</label>
+                        <span class="help-icon" title="可选，示例：数量*单价；可点击选择公式模板">?</span>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" class="ant-input" placeholder="请输入计费公式" style="flex: 1;">
+                            <button type="button" class="ant-btn ant-btn-default">选择公式模板</button>
+                        </div>
+                        <div class="hint-text">可选，示例：数量*单价；可点击[选择公式模板]</div>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
+                <!-- 适用项目类型 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label>适用项目类型</label>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <div class="project-types">
+                            <label class="ant-checkbox-wrapper">
+                                <span class="ant-checkbox">
+                                    <input type="checkbox" class="ant-checkbox-input" value="in-vivo">
+                                    <span class="ant-checkbox-inner"></span>
+                                </span>
+                                <span>In-vivo</span>
+                            </label>
+                            <label class="ant-checkbox-wrapper">
+                                <span class="ant-checkbox">
+                                    <input type="checkbox" class="ant-checkbox-input" value="in-vitro">
+                                    <span class="ant-checkbox-inner"></span>
+                                </span>
+                                <span>In-vitro</span>
+                            </label>
+                            <label class="ant-checkbox-wrapper">
+                                <span class="ant-checkbox">
+                                    <input type="checkbox" class="ant-checkbox-input" value="drug-discovery">
+                                    <span class="ant-checkbox-inner"></span>
+                                </span>
+                                <span>药物发现</span>
+                            </label>
+                            <label class="ant-checkbox-wrapper">
+                                <span class="ant-checkbox">
+                                    <input type="checkbox" class="ant-checkbox-input" value="other">
+                                    <span class="ant-checkbox-inner"></span>
+                                </span>
+                                <span>其他</span>
+                            </label>
+                        </div>
+                        <div class="hint-text">多选，关联AAALAC实验分类</div>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
+                <!-- 状态 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label>状态</label>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <div class="ant-radio-group">
+                            <label class="ant-radio-wrapper ant-radio-wrapper-checked">
+                                <span class="ant-radio ant-radio-checked">
+                                    <input type="radio" class="ant-radio-input" name="status" value="enabled" checked>
+                                    <span class="ant-radio-inner"></span>
+                                </span>
+                                <span>启用</span>
+                            </label>
+                            <label class="ant-radio-wrapper">
+                                <span class="ant-radio">
+                                    <input type="radio" class="ant-radio-input" name="status" value="disabled">
+                                    <span class="ant-radio-inner"></span>
+                                </span>
+                                <span>停用</span>
+                            </label>
+                        </div>
+                        <div class="hint-text">停用科目将无法在新建预算中选择</div>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
+                <!-- 审计追踪 -->
+                <div class="audit-section">
+                    <div class="audit-title">审计追踪：</div>
+                    <div class="audit-info">
+                        <div>
+                            <div>创建人：自动显示当前用户</div>
+                            <div>修改人：--</div>
+                        </div>
+                        <div>
+                            <div>创建时间：自动生成</div>
+                            <div>修改时间：--</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div class="form-actions">
+                    <div class="action-left">
+                        <button type="button" class="ant-btn ant-btn-default" onclick="cancelForm()">取消</button>
+                    </div>
+                    <div class="action-right">
+                        <button type="button" class="ant-btn ant-btn-default" onclick="saveAndNew()">保存并新增</button>
+                        <button type="submit" class="ant-btn ant-btn-primary" onclick="submitForApproval()">提交审批</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 基本的UI交互功能
+        function goBack() {
+            console.log('返回列表');
+            // 在实际应用中，这里会导航回列表页
+        }
+        
+        function closeForm() {
+            console.log('关闭表单');
+            // 在实际应用中，这里会关闭当前窗口或导航到其他页面
+        }
+        
+        function cancelForm() {
+            console.log('取消操作');
+            // 在实际应用中，这里会清空表单或返回上一页
+        }
+        
+        function saveAndNew() {
+            console.log('保存并新增');
+            // 在实际应用中，这里会保存当前表单并重置为新建状态
+        }
+        
+        function submitForApproval(event) {
+            event.preventDefault();
+            console.log('提交审批');
+            // 在实际应用中，这里会验证表单并提交到后端
+        }
+        
+        // 简单的表单验证提示
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const requiredFields = form.querySelectorAll('input[required], select[required]');
+            
+            requiredFields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    if (!this.value.trim()) {
+                        this.style.borderColor = '#ff4d4f';
+                    } else {
+                        this.style.borderColor = '#d9d9d9';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
