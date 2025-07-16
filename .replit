@@ -5,3 +5,15 @@ channel = "stable-24_05"
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[workflows]
+runButton = "Start Web Server"
+
+[[workflows.workflow]]
+name = "Start Web Server"
+author = 40525452
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd Prototype && python -m http.server 5000"
