@@ -255,6 +255,34 @@ python -m http.server 5000
                 
                 <div class="section-separator"></div>
                 
+                <!-- 状态 -->
+                <div class="ant-form-item">
+                    <div class="ant-form-item-label">
+                        <label>状态</label>
+                    </div>
+                    <div class="ant-form-item-control">
+                        <div class="ant-radio-group">
+                            <label class="ant-radio-wrapper ant-radio-wrapper-checked">
+                                <span class="ant-radio ant-radio-checked">
+                                    <input type="radio" class="ant-radio-input" name="status" value="enabled" checked>
+                                    <span class="ant-radio-inner"></span>
+                                </span>
+                                <span>启用</span>
+                            </label>
+                            <label class="ant-radio-wrapper">
+                                <span class="ant-radio">
+                                    <input type="radio" class="ant-radio-input" name="status" value="disabled">
+                                    <span class="ant-radio-inner"></span>
+                                </span>
+                                <span>停用</span>
+                            </label>
+                        </div>
+                        <div class="hint-text">停用科目将无法在新建预算中选择</div>
+                    </div>
+                </div>
+                
+                <div class="section-separator"></div>
+                
                 <!-- 适用项目类型 -->
                 <div class="ant-form-item">
                     <div class="ant-form-item-label">
@@ -283,43 +311,8 @@ python -m http.server 5000
                                 </span>
                                 <span>药物发现</span>
                             </label>
-                            <label class="ant-checkbox-wrapper">
-                                <span class="ant-checkbox">
-                                    <input type="checkbox" class="ant-checkbox-input" value="other">
-                                    <span class="ant-checkbox-inner"></span>
-                                </span>
-                                <span>其他</span>
-                            </label>
                         </div>
                         <div class="hint-text">多选，关联AAALAC实验分类</div>
-                    </div>
-                </div>
-                
-                <div class="section-separator"></div>
-                
-                <!-- 状态 -->
-                <div class="ant-form-item">
-                    <div class="ant-form-item-label">
-                        <label>状态</label>
-                    </div>
-                    <div class="ant-form-item-control">
-                        <div class="ant-radio-group">
-                            <label class="ant-radio-wrapper ant-radio-wrapper-checked">
-                                <span class="ant-radio ant-radio-checked">
-                                    <input type="radio" class="ant-radio-input" name="status" value="enabled" checked>
-                                    <span class="ant-radio-inner"></span>
-                                </span>
-                                <span>启用</span>
-                            </label>
-                            <label class="ant-radio-wrapper">
-                                <span class="ant-radio">
-                                    <input type="radio" class="ant-radio-input" name="status" value="disabled">
-                                    <span class="ant-radio-inner"></span>
-                                </span>
-                                <span>停用</span>
-                            </label>
-                        </div>
-                        <div class="hint-text">停用科目将无法在新建预算中选择</div>
                     </div>
                 </div>
                 
