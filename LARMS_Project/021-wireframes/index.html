@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新建预算科目 - 原型页面</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="BudgetSubjectForm.css">
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel" src="BudgetSubjectForm.jsx"></script>
+    <script type="text/babel">
+        const { useState } = React;
+        
+        const BudgetSubjectForm = () => {
+            const [formData, setFormData] = useState({
+                subjectCode: '',
+                subjectName: '',
+                parentSubject: '',
+                description: '',
+                defaultUnit: '',
+                defaultPrice: '',
+                formula: '',
+                projectTypes: [],
+                status: 'enabled'
+            });
+
+            const handleInputChange = (e) => {
+                const { name, value, type, checked } = e.target;
+                if (type === 'checkbox') {
+                    setFormData(prev => ({
+                        ...prev,
+                        projectTypes: checked 
+                            ? [...prev.projectTypes, value]
+                            : prev.projectTypes.filter(type => type !== value)
+                    }));
+                } else {
+                    setFormData(prev => ({
+                        ...prev,
+                        [name]: value
+                    }));
+                }
+            };
+
+            const handleSubmit = (action) => {
+                console.log(`${action} clicked`, formData);
+                alert(`${action} 操作已触发，请查看控制台`);
+            };
+
+            return React.createElement('div', { className: 'form-container' },
+                React.createElement('div', { className: 'form-header' },
+                    React.createElement('h1', null, '新建预算科目'),
+                    React.createElement('div', { className: 'header-actions' },
+                        React.createElement('button', { className: 'btn-secondary' }, '返回列表'),
+                        React.createElement('button', { className: 'btn-close' }, '×关闭')
+                    )
+                ),
+                React.createElement('form', { className: 'budget-form' },
+                    // 科目编码
+                    React.createElement('div', { className: 'form-group' },
+                        React.createElement('label', { className: 'required' },
+                            '科目编码:',
+                            React.createElement('input', { 
+                                type: 'text', 
+                                name: 'subjectCode',
+                                value: formData.subjectCode,
+                                onChange: handleInputChange,
+                                className: 'form-input'
+                            }),
+                            React.createElement('span', { className: 'help-icon' }, '?')
+                        ),
+                        React.createElement('div', { className: 'form-hint' },
+                            '(提示：唯一标识符，格式：ANIM-类型-代码，示例：ANIM-MOUSE-C57)'
+                        )
+                    ),
+                    // 科目名称
+                    React.createElement('div', { className: 'form-group' },
+                        React.createElement('label', { className: 'required' },
+                            '科目名称:',
+                            React.createElement('input', { 
+                                type: 'text', 
+                                name: 'subjectName',
+                                value: formData.subjectName,
+                                onChange: handleInputChange,
+                                className: 'form-input form-input-wide'
+                            })
+                        ),
+                        React.createElement('div', { className: 'form-hint' },
+                            '(用户友好名称，示例：C57BL/6J小鼠采购费)'
+                        )
+                    ),
+                    // 上级科目
+                    React.createElement('div', { className: 'form-group' },
+                        React.createElement('label', null,
+                            '上级科目:',
+                            React.createElement('select', { 
+                                name: 'parentSubject',
+                                value: formData.parentSubject,
+                                onChange: handleInputChange,
+                                className: 'form-select'
+                            },
+                                React.createElement('option', { value: '' }, '无'),
+                                React.createElement('option', { value: 'parent1' }, '父科目1'),
+                                React.createElement('option', { value: 'parent2' }, '父科目2')
+                            )
+                        ),
+                        React.createElement('div', { className: 'form-hint' },
+                            '(支持多级结构，选"无"则为一级科目)'
+                        )
+                    ),
+                    // 科目描述
+                    React.createElement('div', { className: 'form-group' },
+                        React.createElement('label', null,
+                            '科目描述:',
+                            React.createElement('textarea', { 
+                                name: 'description',
+                                value: formData.description,
+                                onChange: handleInputChange,
+                                className: 'form-textarea',
+                                rows: '4'
+                            })
+                        ),
+                        React.createElement('div', { className: 'form-hint' },
+                            '(详细说明费用范围和核算规则，示例：含运输及初期检疫费)'
+                        )
+                    ),
+                    // 默认计费单位
+                    React.createElement('div', { className: 'form-group' },
+                        React.createElement('label', { className: 'required' },
+                            '默认计费单位:',
+                            React.createElement('select', { 
+                                name: 'defaultUnit',
+                                value: formData.defaultUnit,
+                                onChange: handleInputChange,
+                                className: 'form-select'
+                            },
+                                React.createElement('option', { value: '' }, '选择'),
+                                React.createElement('option', { value: '只' }, '只'),
+                                React.createElement('option', { value: '小时' }, '小时'),
+                                React.createElement('option', { value: '人天' }, '人天'),
+                                React.createElement('option', { value: '克' }, '克'),
+                                React.createElement('option', { value: '次' }, '次')
+                            )
+                        )
+                    ),
+                    // 默认单价
+                    React.createElement('div', { className: 'form-group' },
+                        React.createElement('label', null,
+                            '默认单价/费率:',
+                            React.createElement('div', { className: 'price-input' },
+                                React.createElement('span', { className: 'currency' }, '¥'),
+                                React.createElement('input', { 
+                                    type: 'number', 
+                                    name: 'defaultPrice',
+                                    value: formData.defaultPrice,
+                                    onChange: handleInputChange,
+                                    className: 'form-input',
+                                    step: '0.01'
+                                })
+                            )
+                        ),
+                        React.createElement('div', { className: 'form-hint' },
+                            '(数值型，保留2位小数；若需复杂计费请留空并配置"资源单价表")'
+                        )
+                    ),
+                    // 计费公式
+                    React.createElement('div', { className: 'form-group' },
+                        React.createElement('label', null,
+                            '计费公式:',
+                            React.createElement('input', { 
+                                type: 'text', 
+                                name: 'formula',
+                                value: formData.formula,
+                                onChange: handleInputChange,
+                                className: 'form-input'
+                            }),
+                            React.createElement('span', { className: 'help-icon' }, '?')
+                        ),
+                        React.createElement('div', { className: 'form-hint' },
+                            '(可选，示例：数量*单价；可点击[选择公式模板])'
+                        )
+                    ),
+                    // 适用项目类型
+                    React.createElement('div', { className: 'form-group' },
+                        React.createElement('label', null, '适用项目类型:'),
+                        React.createElement('div', { className: 'checkbox-group' },
+                            ['In-vivo', 'In-vitro', '药物发现'].map(type =>
+                                React.createElement('label', { key: type, className: 'checkbox-label' },
+                                    React.createElement('input', { 
+                                        type: 'checkbox', 
+                                        value: type,
+                                        checked: formData.projectTypes.includes(type),
+                                        onChange: handleInputChange
+                                    }),
+                                    type
+                                )
+                            )
+                        ),
+                        React.createElement('div', { className: 'form-hint' },
+                            '(多选，关联AAALAC实验分类)'
+                        )
+                    ),
+                    // 状态
+                    React.createElement('div', { className: 'form-group' },
+                        React.createElement('label', null, '状态:'),
+                        React.createElement('div', { className: 'radio-group' },
+                            React.createElement('label', { className: 'radio-label' },
+                                React.createElement('input', { 
+                                    type: 'radio', 
+                                    name: 'status', 
+                                    value: 'enabled',
+                                    checked: formData.status === 'enabled',
+                                    onChange: handleInputChange
+                                }),
+                                '启用'
+                            ),
+                            React.createElement('label', { className: 'radio-label' },
+                                React.createElement('input', { 
+                                    type: 'radio', 
+                                    name: 'status', 
+                                    value: 'disabled',
+                                    checked: formData.status === 'disabled',
+                                    onChange: handleInputChange
+                                }),
+                                '停用'
+                            )
+                        ),
+                        React.createElement('div', { className: 'form-hint' },
+                            '(停用科目将无法在新建预算中选择)'
+                        )
+                    ),
+                    // 审计追踪
+                    React.createElement('div', { className: 'audit-section' },
+                        React.createElement('h3', null, '审计追踪:'),
+                        React.createElement('div', { className: 'audit-row' },
+                            React.createElement('span', null, '创建人：自动显示当前用户'),
+                            React.createElement('span', null, '创建时间：自动生成')
+                        ),
+                        React.createElement('div', { className: 'audit-row' },
+                            React.createElement('span', null, '修改人：--'),
+                            React.createElement('span', null, '修改时间：--')
+                        )
+                    ),
+                    // 按钮
+                    React.createElement('div', { className: 'form-actions' },
+                        React.createElement('button', { 
+                            type: 'button', 
+                            className: 'btn-secondary',
+                            onClick: () => handleSubmit('取消')
+                        }, '取消'),
+                        React.createElement('button', { 
+                            type: 'button', 
+                            className: 'btn-primary',
+                            onClick: () => handleSubmit('保存并新增')
+                        }, '保存并新增'),
+                        React.createElement('button', { 
+                            type: 'button', 
+                            className: 'btn-primary',
+                            onClick: () => handleSubmit('提交审批')
+                        }, '提交审批')
+                    )
+                )
+            );
+        };
+
+        ReactDOM.render(React.createElement(BudgetSubjectForm), document.getElementById('root'));
+    </script>
+</body>
+</html>
