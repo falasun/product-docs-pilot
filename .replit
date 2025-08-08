@@ -16,4 +16,4 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd Prototype && python -m http.server 5000"
+args = "cd LARMS_Project/021-wireframes && python -m http.server 5000"
